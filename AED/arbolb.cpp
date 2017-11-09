@@ -25,15 +25,15 @@ int altura(arbol *raiz,int h=0){
         if(raiz->der!=NULL)
             altura(raiz->der,h);
     }
-    return h;
+    return (1+h);
 
 
 
 }
-
-
 bool Ebinario(arbol *raiz){
     bool flag=1;
+    if((raiz->der==NULL && raiz->izq!=NULL) ||(raiz->der!=NULL && raiz->izq==NULL))
+        cout<<"||"<<raiz->num<<"||"<<endl;
     if(raiz->izq!=NULL){//si tiene cadena izquierda
         if(raiz->izq->der!=NULL){//si tiene cadena derecha a partir del siguiente nivel
             Ebinario(raiz->izq->der);//recursividad para recorrer el sub arbol
@@ -71,7 +71,9 @@ bool Ebinario(arbol *raiz){
 bool completo(arbol *raiz,int a=0){
     bool flag=1;
     int h=altura(raiz,0);
-    if(a<=(h-2)){
+    if((raiz->der==NULL) || (raiz->izq==NULL) )
+        cout<<"||"<<raiz->num<<"||"<<endl;
+    else if(a<(h-2)){
         if(raiz->izq!=NULL){
             a++;
             if(raiz->izq->der!=NULL){
@@ -108,13 +110,14 @@ bool completo(arbol *raiz,int a=0){
 }
 void mostrarinfo(arbol *aux){
     cout<<"valor de la raiz:"<<aux->num<<endl;
+
     if(Ebinario(aux)){
         cout<<"el arbol es estrictamente binario"<<endl;
     }else cout<<"el arbol NO es estrictamente binario"<<endl;
     if(completo(aux,0)){
         cout<<"el arbol es completo "<<endl;
     }else cout<<"el arbol NO es completo"<<endl;
-
+    cout<<"altura del arbol : "<<altura(aux,0)<<endl;
 }
 int main()
 {
@@ -179,3 +182,4 @@ int main()
     }while(op!=4);
     return 0;
 }
+
