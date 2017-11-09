@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <queue>
 using namespace std;
 
 
@@ -18,14 +18,12 @@ int altura(arbol *raiz,int h=0){
 
     if(raiz==NULL)
         return h;
-    arbol *temp1=raiz->izq;
-    arbol *temp2=raiz->der;
-    if(temp1!=NULL || temp2!=NULL){
+    if(raiz->izq!=NULL || raiz->der!=NULL){
         h++;
-        if(temp1!=NULL)
-            altura(temp1,h);
-        if(temp2!=NULL)
-            altura(temp2,h);
+        if(raiz->izq!=NULL)
+            altura(raiz->izq,h);
+        if(raiz->der!=NULL)
+            altura(raiz->der,h);
     }
     return h;
 
@@ -34,39 +32,36 @@ int altura(arbol *raiz,int h=0){
 }
 
 
-
 bool Ebinario(arbol *raiz){
     bool flag=1;
-    arbol *temp1=raiz->izq;
-    arbol *temp2=raiz->der;
-    if(temp1!=NULL){
-        if(temp1->der!=NULL){
-            Ebinario(temp1->der);
-        }else if(temp1->der==NULL && temp1->izq!=NULL){//en caso solo tenga 1 hijo
+    if(raiz->izq!=NULL){//si tiene cadena izquierda
+        if(raiz->izq->der!=NULL){//si tiene cadena derecha a partir del siguiente nivel
+            Ebinario(raiz->izq->der);//recursividad para recorrer el sub arbol
+        }else if(raiz->izq->der==NULL && raiz->izq->izq!=NULL){//en caso solo tenga 1 hijo
             flag=0;
-            cout<<"||"<<temp1->num<<"||"<<endl;
+            cout<<"||"<<raiz->izq->num<<"||"<<endl;
         }
 
-        if(temp1->izq!=NULL){
-            Ebinario(temp1->izq);
-        }else if(temp1->izq==NULL && temp1->der!=NULL){//en caso solo tenga 1 hijo
+        if(raiz->izq->izq!=NULL){
+            Ebinario(raiz->izq->izq);
+        }else if(raiz->izq->izq==NULL && raiz->izq->der!=NULL){//en caso solo tenga 1 hijo
             flag=0;
-            cout<<"||"<<temp1->num<<"||"<<endl;
+            cout<<"||"<<raiz->izq->num<<"||"<<endl;
         }
     }
-    if(temp2!=NULL){
-        if(temp2->der!=NULL){
-            Ebinario(temp1->der);
-        }else if(temp2->der==NULL && temp2->izq!=NULL){//en caso solo tenga 1 hijo
+    if(raiz->der!=NULL){
+        if(raiz->der->der!=NULL){
+            Ebinario(raiz->der->der);
+        }else if(raiz->der->der==NULL && raiz->der->izq!=NULL){//en caso solo tenga 1 hijo
             flag=0;
-            cout<<"||"<<temp2->num<<"||"<<endl;
+            cout<<"||"<<raiz->der->num<<"||"<<endl;
         }
 
-        if(temp2->izq!=NULL){
-            Ebinario(temp1->izq);
-        }else if(temp2->izq==NULL && temp2->der!=NULL){//en caso solo tenga 1 hijo
+        if(raiz->der->izq!=NULL){
+            Ebinario(raiz->der->izq);
+        }else if(raiz->der->izq==NULL && raiz->der->der!=NULL){//en caso solo tenga 1 hijo
             flag=0;
-            cout<<"||"<<temp1->num<<"||"<<endl;
+            cout<<"||"<<raiz->der->num<<"||"<<endl;
         }
 }
     return flag;
@@ -77,38 +72,36 @@ bool completo(arbol *raiz,int a=0){
     bool flag=1;
     int h=altura(raiz,0);
     if(a<=(h-2)){
-        arbol *temp1=raiz->izq;
-        arbol *temp2=raiz->der;
-        if(temp1!=NULL){
+        if(raiz->izq!=NULL){
             a++;
-            if(temp1->der!=NULL){
-                completo(temp1->der,a);
-            }else if(temp1->der==NULL || temp1->izq==NULL){//en caso solo tenga 1 hijo
+            if(raiz->izq->der!=NULL){
+                completo(raiz->izq->der,a);
+            }else if(raiz->izq->der==NULL || raiz->izq->izq==NULL){//en caso solo tenga 1 hijo
                 flag=0;
-                cout<<"||"<<temp1->num<<"||"<<endl;
+                cout<<"||"<<raiz->izq->num<<"||"<<endl;
             }
 
-            if(temp1->izq!=NULL){
-                completo(temp1->izq,a);
-            }else if(temp1->izq==NULL || temp1->der==NULL){//en caso solo tenga 1 hijo
+            if(raiz->izq->izq!=NULL){
+                completo(raiz->izq->izq,a);
+            }else if(raiz->izq->izq==NULL || raiz->izq->der==NULL){//en caso solo tenga 1 hijo
                 flag=0;
-                cout<<"||"<<temp1->num<<"||"<<endl;
+                cout<<"||"<<raiz->izq->num<<"||"<<endl;
             }
         }
-        if(temp2!=NULL){
+        if(raiz->der!=NULL){
             a++;
-            if(temp2->der!=NULL){
-                completo(temp1->der,a);
-            }else if(temp2->der==NULL || temp2->izq==NULL){//en caso solo tenga 1 hijo
+            if(raiz->der->der!=NULL){
+                completo(raiz->der->der,a);
+            }else if(raiz->der->der==NULL || raiz->der->izq==NULL){//en caso solo tenga 1 hijo
                 flag=0;
-                cout<<"||"<<temp2->num<<"||"<<endl;
+                cout<<"||"<<raiz->der->num<<"||"<<endl;
             }
 
-            if(temp2->izq!=NULL){
-                completo(temp1->izq,a);
-            }else if(temp2->izq==NULL || temp2->der==NULL){//en caso solo tenga 1 hijo
+            if(raiz->der->izq!=NULL){
+                completo(raiz->der->izq,a);
+            }else if(raiz->der->izq==NULL || raiz->der->der==NULL){//en caso solo tenga 1 hijo
                 flag=0;
-                cout<<"||"<<temp1->num<<"||"<<endl;
+                cout<<"||"<<raiz->der->num<<"||"<<endl;
             }
     }
     }
@@ -186,4 +179,3 @@ int main()
     }while(op!=4);
     return 0;
 }
-
